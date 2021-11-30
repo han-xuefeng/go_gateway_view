@@ -72,7 +72,7 @@ export default {
     SizeSelect,
     Search
   },
-  data: function (){
+  data (){
     return {
       dialogFormVisible: false,
       temp: {
