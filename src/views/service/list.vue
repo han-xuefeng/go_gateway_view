@@ -5,7 +5,7 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
         Add
       </el-button>
     </div>
@@ -28,6 +28,47 @@
       <el-table-column label="服务名称" min-width="150px">
         <template slot-scope="{row}">
           <span>{{ row.service_name }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="ID" prop="id" align="center" width="50">
+        <template slot-scope="{row}">
+          <span>{{ row.id }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="服务名称" min-width="110px">
+        <template slot-scope="{row}">
+          <span>{{ row.service_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="服务描述" min-width="120px">
+        <template slot-scope="{row}">
+          <span>{{ row.service_desc }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="类型" min-width="60px">
+        <template slot-scope="{row}">
+          <span>{{ row.load_type | loadTypeFilter }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="服务地址" min-width="165px">
+        <template slot-scope="{row}">
+          <span>{{ row.service_addr }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="QPS" min-width="50px">
+        <template slot-scope="{row}">
+          <span>{{ row.qps }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="日请求量" min-width="50px">
+        <template slot-scope="{row}">
+          <span>{{ row.qpd }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="节点数" min-width="50px">
+        <template slot-scope="{row}">
+          <span>{{ row.total_node }}</span>
         </template>
       </el-table-column>
       
@@ -55,12 +96,25 @@ import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
+const loadTypeOptions = [
+  { key: '0', display_name: 'HTTP' },
+  { key: '1', display_name: 'TCP' },
+  { key: '2', display_name: 'GRPC' }
+]
+
+const loadTypeKeyValue = loadTypeOptions.reduce((acc, cur) => {
+  acc[cur.key] = cur.display_name
+  return acc
+}, {})
+
 export default {
   name: 'service_list',
   components: { Pagination },
   directives: { waves },
   filters: {
-    
+    loadTypeFilter(type) {
+      return loadTypeKeyValue[type]
+    }
   },
   data() {
     return {
