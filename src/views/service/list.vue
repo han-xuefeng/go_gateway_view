@@ -5,9 +5,24 @@
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         Search
       </el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
+      <!-- <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
         Add
-      </el-button>
+      </el-button> -->
+      <router-link :to="'/service/service_create_http/'">
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
+          添加HTTP服务
+        </el-button>
+      </router-link>
+      <router-link :to="'/service/service_create_tcp/'">
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
+          添加TCP服务
+        </el-button>
+      </router-link>
+      <router-link :to="'/service/service_create_grpc/'">
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit">
+          添加GRPC服务
+        </el-button>
+      </router-link>
     </div>
 
     <el-table
@@ -74,13 +89,27 @@
       
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini">
-            统计
-          </el-button>
-           <el-button type="primary" size="mini">
-            修改
-          </el-button>
-          <el-button  size="mini" type="danger" @click="handleDelete(row,$index)">
+          <router-link :to="'/service/service_stat/'+row.id">
+            <el-button type="primary" size="mini">
+              统计
+            </el-button>
+          </router-link>
+          <router-link v-if="row.load_type===0" :to="'/service/service_edit_http/'+row.id">
+            <el-button type="primary" size="mini">
+              修改
+            </el-button>
+          </router-link>
+          <router-link v-if="row.load_type===1" :to="'/service/service_edit_tcp/'+row.id">
+            <el-button type="primary" size="mini">
+              修改
+            </el-button>
+          </router-link>
+          <router-link v-if="row.load_type===2" :to="'/service/service_edit_grpc/'+row.id">
+            <el-button type="primary" size="mini">
+              修改
+            </el-button>
+          </router-link>
+          <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
             删除
           </el-button>
         </template>
